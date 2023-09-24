@@ -49,6 +49,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const review = req.body.review
   const username = req.session.authorization.username
 
+  console.log(username)
+
   if (isbn){
     var reviews = books[isbn].reviews
 
@@ -59,23 +61,6 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
       books[isbn].reviews[username] = review
     }
     return res.send(books[isbn].reviews)
-  }
-  else{
-    res.send("Unable to find book!");
-  }
-});
-
-// Delete a book review
-regd_users.delete("/auth/review/:isbn", (req, res) => {
-  const isbn = req.params.isbn
-  const username = req.session.authorization.username
-
-  if (isbn){
-    if (books[isbn] && books[isbn].reviews && books[isbn].reviews.username) {
-      delete books[isbn].reviews.username;
-    }
-    console.log(books)
-    res.send(`Book review of user: ${username} deleted.`);
   }
   else{
     res.send("Unable to find book!");

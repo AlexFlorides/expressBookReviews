@@ -64,16 +64,15 @@ public_users.get('/author/:author', async function (req, res) {
 
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
-      let authors_found = Object.values(books).filter(obj => obj.author === author);
+      let authors_found = Object.values(books).find(obj => obj.author === author);
       resolve(authors_found);
     }, 600);
   });
 
-  const filteredBooks = await promise;
-  console.log(filteredBooks)
+  const authors_found = await promise;
 
-  if (filteredBooks.length > 0){
-    res.send(filteredBooks)
+  if (authors_found.length > 0){
+    res.send(authors_found)
   }
   else{
     res.send("Unable to find book!");
@@ -81,21 +80,11 @@ public_users.get('/author/:author', async function (req, res) {
 });
 
 // Get all books based on title
-public_users.get('/title/:title',async function (req, res) {
+public_users.get('/title/:title',function (req, res) {
   const title = req.params.title
-
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      let titles_found = Object.values(books).filter(obj => obj.title === title);
-      resolve(titles_found);
-    }, 600);
-  });
-
-  const filteredBooks = await promise;
-  console.log(filteredBooks)
-
-  if (filteredBooks.length > 0){
-    res.send(filteredBooks)
+  if (title){
+    let titles_found = Object.values(books).find(obj => obj.title === title);
+    res.send(titles_found)
   }
   else{
     res.send("Unable to find book!");
